@@ -146,4 +146,33 @@ RSpec.describe RuboCop::AST::AndNode do
       it { expect(and_node.rhs).to be_int_type }
     end
   end
+
+  describe '#conditions' do
+    context 'with a logical and node' do
+      let(:source) do
+        ':foo && 42'
+      end
+
+      it { expect(and_node.conditions.size).to eq(2) }
+      it { expect(and_node.conditions).to all(be_literal) }
+    end
+
+    context 'with a semantic and node' do
+      let(:source) do
+        ':foo and 42'
+      end
+
+      it { expect(and_node.conditions.size).to eq(2) }
+      it { expect(and_node.conditions).to all(be_literal) }
+    end
+
+    context 'with 3 operator' do
+      let(:source) do
+        ':foo && 42 && :bar'
+      end
+
+      it { expect(and_node.conditions.size).to eq(3) }
+      it { expect(and_node.conditions).to all(be_literal) }
+    end
+  end
 end
