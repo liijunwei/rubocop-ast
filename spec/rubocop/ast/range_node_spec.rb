@@ -30,6 +30,11 @@ RSpec.describe RuboCop::AST::RangeNode do
 
       it { is_expected.to be_a(described_class) }
       it { is_expected.to be_range_type }
+
+      it 'has begin and end' do
+        expect(range_node.begin).to be_int_type
+        expect(range_node.end).to be_nil
+      end
     end
 
     context 'with a beignless range' do
